@@ -6,7 +6,8 @@
 }
 
 body {
-    background-image: url("/assets/images/dark-honeycomb/dark-honeycomb.png");
+    background-image: url("/assets/images/dark-honeycomb.png");
+    /* background-image: url("D:/Documents/Onedrive/Desktop/RPS-Multiplater/assets/images/dark-honeycomb.png"); */
     text-align: center;
     padding: 50px;
 }
