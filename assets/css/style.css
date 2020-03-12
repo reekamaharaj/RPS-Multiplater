@@ -1,3 +1,9 @@
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
 * {
     font-family: 'Bangers', cursive;
     font-family: 'Cuprum', sans-serif;

@@ -14,34 +14,37 @@ firebase.initializeApp(firebaseConfig);
 let database = firebase.database();
 
 //game variables
-let rock;
-let paper;
-let scissors;
-let lizard;
-let spock;
+let rock = "rock";
+let paper = "paper";
+let scissors = "scissors";
+let lizard = "lizard";
+let spock = "spock";
 
 //player variables
-let sheldon;
-let leonard;
-let penny;
-let amy;
+let sheldon = "sheldon";
+let leonard = "leonard";
+let penny = "penny";
+let amy = "amy";
 
-//start
-let start;
-let player1Ready = false;
-let player2Ready = false;
+//in game
 
-let player1Win;
-let player1Lose;
-let player2Win;
-let player2Lose;
+let player1 = {
+    win: 0 ,
+    lose: 0 ,
+    choice: "",
+    picked: "",
+    ready: false
+}
+
+let player2 = {
+    win: 0 ,
+    lose: 0 ,
+    choice: "",
+    picked: "",
+    ready: false
+}
+
 let tie;
-let player1;
-let player2;
-let player1Choice;
-let player2Choice;
-
-//could totally make the player1 and player2 variables into one object for each player instead of a ton of variables.... 
 
 $(document).ready(function() {
     $("#start").click(startGame);
@@ -53,64 +56,75 @@ $(document).ready(function() {
     $(".amy").click(amyClick);
 })
 
-
 function startGame (){
     console.log("well this works so far");
+    sendToDatabase();
+
     $(".player").hide();
     $(".gamePlay").show();
+
     //register the players choice
     $(".rock").click(rockClick);
     $(".paper").click(paperClick);
     $(".scissors").click(scissorsClick);
     $(".lizard").click(lizardClick);
-    $(".spock").click(scissorsClick);    
+    $(".spock").click(scissorsClick);
+    $(".final").click(finalClick);
     //on click of start, begin game when both players have selected start
 }
-
+function finalClick(){
+    player1.ready = true;
+    player2.ready = true;
+    sendToDatabase();
+}
 function rockClick(){
-    //store the rock value for which ever user chose it
-    console.log("rock");
+    player1.picked = rock;
+    console.log(player1.picked);
 }
 
 function paperClick(){
-    console.log("paper");
+    player1.picked = paper;
+    console.log(player1.picked);
 }
 
 function scissorsClick(){
-    console.log("scissors");
+    player1.picked = scissors;
+    console.log(player1.picked);
 }
 
 function lizardClick(){
-    console.log("lizard");
+    player1.picked = lizard;
+    console.log(player1.picked);
 }
 
 function spockClick(){
-    console.log("spock");
+    player1.picked = spock;
+    console.log(player1.picked);
 }
 
 function sheldonClick(){
-    player1 = sheldon;
-    console.log("player1sheldon");
+    player1.choice = sheldon;
+    console.log(player1.choice);
 }
 
 function leonardClick(){
-    player1 = leonard;
-    console.log("player1leonard");
+    player1.choice = leonard;
+    console.log(player1.choice);
 }
 
 function pennyClick(){
-    player1 = penny;
-    console.log("player1penny");
+    player1.choice = penny;
+    console.log(player1.choice);
 }
 
 function amyClick(){
-    player1 = amy;
-    console.log("player1amy");
+    player1.choice = amy;
+    console.log(player1.choice);
 }
 
 //checks who wins the game
 function results(){
-    $(".results").append("Player1 chose: " + player1 + " Player2 chose: " + player2 + "Player1 has won: " + player1Win + "Player1 has lost: " + player1Lose + " Player2 has won: " + player2Win + " Player2 has lost: " + player2Lose);
+    $(".results").append("Player1 chose to play as: " + player1.choice + ". Player1 has won: " + player1.win + "games. Player1 has lost: " + player1.lose + " games. Player2 chose to play as: " + player2.choice + ". Player2 has won: " + player2.win + " games. Player2 has lost: " + player2.lose + ". Player1 and Player2 have tied " + tie + " times.");
 }
 
     //click from player1 will store the players choice
@@ -123,42 +137,65 @@ function results(){
     //reset button to get a new game and score
     //add chat functions so players can communicate while playing
 function results (){
-    if ((player1 === rock) || (player1 === paper || player1 === scissors || player1 === lizard || player1 === spock)){
-
-        if ((player1 === rock && player2 === scissors) || (player1 === rock && player2 === lizard) || (player1 === paper && player2 === spock) || (player1 === scissors && player2 === paper) || (player1 === scissors && player2 === lizard) || (player1 === lizard && player2 === paper) || (player1 ===lizard && player2 === spock) || (player1 === spock && player2 === rock) || (player1 === paper && player2 === rock) || (player1 === spock && player2 === scissors) ){
-            player1Win++;
-            playerLose++;
+    if (player1.ready === true && player2.ready === true){
+        if ((player1.picked === rock && player2.picked === scissors) || (player1.picked === rock && player2.picked === lizard) || (player1.picked === paper && player2.picked === spock) || (player1.picked === scissors && player2.picked === paper) || (player1.picked === scissors && player2.picked === lizard) || (player1.picked === lizard && player2.picked === paper) || (player1.picked ===lizard && player2.picked === spock) || (player1.picked === spock && player2.picked === rock) || (player1.picked === paper && player2.picked === rock) || (player1.picked === spock && player2.picked === scissors) ){
+            player1.win++;
+            player2.lose++;
             nextGame();
         }
-        else if (player1 === player2) {
+        else if (player1.picked === player2.picked) {
             tie++;
             nextGame();
         }
         else {
-            player1Lose++;
-            player2Win++;
+            player1.lose++;
+            player2.win++;
             nextGame();
         }
-    }    
+    }
 }
 
+function sendToDatabase() {
+    database.ref().push({
+        player1: player1,
+        player2: player2
+    });
+}
 function nextGame (){
     //button to ask if the player wants to play again
+    player1.ready = false;
+    player2.ready = false;
+    sendToDatabase();
 }
 
 function reset() {
     //function to reset the scores and chat window
+    player1 = {
+        win: 0 ,
+        lose: 0 ,
+        choice: "",
+        picked: "",
+        ready: false
+    }
+    
+    player2 = {
+        win: 0 ,
+        lose: 0 ,
+        choice: "",
+        picked: "",
+        ready: false
+    }
 }
 
 /* 
 - rock crushes scissors
--rock crushes lizard
--paper covers rock
--paper disproves spock
+- rock crushes lizard
+- paper covers rock
+- paper disproves spock
 - scissors cut paper
--scissors decapitates lizard
+- scissors decapitates lizard
 - lizard eats paper
--lizard poisons spock
--spock vaporizes rock
--spock smashes scissors
+- lizard poisons spock
+- spock vaporizes rock
+- spock smashes scissors
 */

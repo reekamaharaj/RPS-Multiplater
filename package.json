@@ -1,0 +1,22 @@
+{
+  "name": "eslint",
+  "version": "1.0.0",
+  "description": "Online multiplayer Rock Paper Scissors Game!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reekamaharaj/RPS-Multiplayer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/reekamaharaj/RPS-Multiplayer/issues"
+  },
+  "homepage": "https://github.com/reekamaharaj/RPS-Multiplayer#readme",
+  "dependencies": {
+    "tailwindcss": "^1.2.0"
+  }
+}
