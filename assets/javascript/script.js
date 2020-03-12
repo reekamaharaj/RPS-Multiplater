@@ -38,6 +38,10 @@ let player2Lose;
 let tie;
 let player1;
 let player2;
+let player1Choice;
+let player2Choice;
+
+//could totally make the player1 and player2 variables into one object for each player instead of a ton of variables.... 
 
 $(document).ready(function() {
     $("#start").click(startGame);
@@ -85,19 +89,23 @@ function spockClick(){
 }
 
 function sheldonClick(){
-    console.log("sheldon");
+    player1 = sheldon;
+    console.log("player1sheldon");
 }
 
 function leonardClick(){
-    console.log("leonard");
+    player1 = leonard;
+    console.log("player1leonard");
 }
 
 function pennyClick(){
-    console.log("penny");
+    player1 = penny;
+    console.log("player1penny");
 }
 
 function amyClick(){
-    console.log("amy");
+    player1 = amy;
+    console.log("player1amy");
 }
 
 //checks who wins the game
