@@ -12,6 +12,7 @@ Game rules to be added when development is closer to being done.
 
 ## Tech used
 - HTML
+- Visual Studio
 - Tailwind CSS
 - Javascript
 - Firebase
